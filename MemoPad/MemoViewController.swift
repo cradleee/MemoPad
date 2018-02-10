@@ -9,16 +9,39 @@
 import UIKit
 
 class MemoViewController: UIViewController {
-
+    
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var contentTextView: UITextView!
+    
+    var saveDate: UserDefaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        titleTextField.text = saveDate.object(forKey: "title") as? String
+        contentTextView.text = saveDate.object(forKey: "content") as? String
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        }
+    @IBAction func saveMemo() {
+        saveDate.set(titleTextField.text, forKey: "title")
+        saveDate.set(contentTextView.text, forKey: "content")
+        
+        let alert: UIAlertController = UIAlertController(title: "保存", message: "メモの保存が完了しました。",
+                                                         preferredStle: .alert)
+        
+        alert.addAction(
+            UIAlertAction)(
+                title: "OK"
+                style: .default,
+                handler: {action in
+                    print("OKボタンが押されました！")
+            }
+        )
+      ）
     }
     
 
