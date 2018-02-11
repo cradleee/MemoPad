@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemoViewController: UIViewController {
+class MemoViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var contentTextView: UITextView!
@@ -20,6 +20,7 @@ class MemoViewController: UIViewController {
         
         titleTextField.text = saveDate.object(forKey: "title") as? String
         contentTextView.text = saveDate.object(forKey: "content") as? String
+        titleTextField.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,19 +31,27 @@ class MemoViewController: UIViewController {
         saveDate.set(titleTextField.text, forKey: "title")
         saveDate.set(contentTextView.text, forKey: "content")
         
-        let alert: UIAlertController = UIAlertController(title: "保存", message: "メモの保存が完了しました。",
-                                                         preferredStle: .alert)
+        let alert: UIAlertController = UIAlertController (title: "保存", message:"メモの保存が完了しました。", preferredStyle: .alert)
         
         alert.addAction(
-            UIAlertAction)(
-                title: "OK"
+            UIAlertAction (
+                title: "OK",
                 style: .default,
                 handler: {action in
                     print("OKボタンが押されました！")
             }
         )
-      ）
+    )
+        self.navigationController?.popViewController(animated: true)
+        present(alert, animated: true, completion: nil)
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+}
     
 
     /*
@@ -55,4 +64,3 @@ class MemoViewController: UIViewController {
     }
     */
 
-}
